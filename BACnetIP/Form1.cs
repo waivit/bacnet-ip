@@ -9,6 +9,7 @@ using System.IO.BACnet;
 using System.Web.UI.WebControls;
 using PacketDotNet;
 using System.Linq;
+using System.Text;
 
 namespace ModBus
 
@@ -182,7 +183,16 @@ namespace ModBus
                 if (bacnetClient.ReadPropertyRequest(targetDevice.Address, objectId, BacnetPropertyIds.PROP_DESCRIPTION, out var values))
                 {
                     txtBoxOutput.AppendText($"Value: {values[0].Value}\r\n");
+                        byte[] tempval = ASCIIEncoding.UTF8.GetBytes("setProp");
+                        List<BacnetValue> tempBacnetValueval = new List<BacnetValue>();
+                        tempBacnetValueval.Add(new BacnetValue(tempval[1]));
+                        var bacnetfinal = tempBacnetValueval.ToArray();
+                        
+                        //bacnetClient.WritePropertyRequest(targetDevice.Address, objectId, BacnetPropertyIds.PROP_DESCRIPTION, bacnetfinal);
+                        bacnetClient.WritePropertyRequest(targetDevice.Address, objectId, BacnetPropertyIds.PROP_DESCRIPTION, values);
                 }
+                
+
                 else
                 {
                     txtBoxOutput.AppendText("Read OBJECT_ANALOG_INPUT ["+i+"] failed.\r\n");
