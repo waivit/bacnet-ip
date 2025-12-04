@@ -21,7 +21,8 @@ namespace ModBus
             BacnetClient bacnetClient;
             SerialPort serialPort;
             ModbusSerialMaster master;
-      
+            ModbusSerialSlave Slave;
+
 
         public Form1()
             {
@@ -176,20 +177,21 @@ namespace ModBus
                     ui = (uint)i;
                
                 // กำหนด Object ที่ต้องการอ่าน
-                BacnetObjectId objectId = new BacnetObjectId(BacnetObjectTypes.OBJECT_ANALOG_INPUT, ui);
+                BacnetObjectId objectId = new BacnetObjectId(BacnetObjectTypes.OBJECT_BINARY_OUTPUT, ui);
                 
 
                 // อ่านค่าจากอุปกรณ์
-                if (bacnetClient.ReadPropertyRequest(targetDevice.Address, objectId, BacnetPropertyIds.PROP_DESCRIPTION, out var values))
+                if (bacnetClient.ReadPropertyRequest(targetDevice.Address, objectId, BacnetPropertyIds.PROP_PRESENT_VALUE, out var values))
                 {
+                        
                     txtBoxOutput.AppendText($"Value: {values[0].Value}\r\n");
-                        byte[] tempval = ASCIIEncoding.UTF8.GetBytes("setProp");
-                        List<BacnetValue> tempBacnetValueval = new List<BacnetValue>();
-                        tempBacnetValueval.Add(new BacnetValue(tempval[1]));
-                        var bacnetfinal = tempBacnetValueval.ToArray();
+                        //byte[] tempval = ASCIIEncoding.UTF8.GetBytes("setProp");
+                        //List<BacnetValue> tempBacnetValueval = new List<BacnetValue>();
+                        //tempBacnetValueval.Add(new BacnetValue(tempval[1]));
+                        //var bacnetfinal = tempBacnetValueval.ToArray();
                         
                         //bacnetClient.WritePropertyRequest(targetDevice.Address, objectId, BacnetPropertyIds.PROP_DESCRIPTION, bacnetfinal);
-                        bacnetClient.WritePropertyRequest(targetDevice.Address, objectId, BacnetPropertyIds.PROP_DESCRIPTION, values);
+                        //bacnetClient.WritePropertyRequest(targetDevice.Address, objectId, BacnetPropertyIds.PROP_DESCRIPTION, values);
                 }
                 
 
@@ -223,6 +225,49 @@ namespace ModBus
         private void groupBox1_Enter(object sender, EventArgs e)
         {
 
+        }
+
+        private void InstanceID_to_textBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            txtBoxOutput.Clear();
+            string selectedPort = ((KeyValuePair<string, string>)comboBoxPorts.SelectedItem).Value;
+
+
+            SerialPort serialPort = new SerialPort(selectedPort);
+            serialPort.BaudRate = 9600;
+            serialPort.DataBits = 8;
+            serialPort.Parity = Parity.None;
+            serialPort.StopBits = StopBits.One;
+            serialPort.Open();
+
+            //serialPort = new SerialPort(selectedPort, 9600, Parity.None, 8, StopBits.One);
+            try
+            {
+                serialPort.Open();
+                master = ModbusSerialMaster.CreateRtu(serialPort);
+                txtBoxOutput.AppendText("Connected to " + selectedPort + "\r\n");
+
+                // อ่าน Holding Register จาก Slave ID 1 ที่ Address 0 จำนวน 2 ตัว
+                ushort[] data = master.ReadHoldingRegisters(1, 0, 2);
+                for (int i = 0; i < data.Length; i++)
+                {
+                    txtBoxOutput.AppendText($"Register {i}: {data[i]}\r\n");
+                }
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show("Error : " + ex.Message);
+                txtBoxOutput.AppendText("Error : " + ex.Message + "\r\n");
+            }
+            finally
+            {
+                serialPort?.Close();
+            }
         }
     }
     }

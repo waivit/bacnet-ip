@@ -44,6 +44,7 @@ namespace ModBus
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.button5 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -68,9 +69,9 @@ namespace ModBus
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(639, 21);
+            this.button1.Location = new System.Drawing.Point(610, 21);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(96, 24);
+            this.button1.Size = new System.Drawing.Size(76, 24);
             this.button1.TabIndex = 2;
             this.button1.Text = "Connect";
             this.button1.UseVisualStyleBackColor = true;
@@ -78,7 +79,7 @@ namespace ModBus
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(545, 21);
+            this.button2.Location = new System.Drawing.Point(516, 21);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(88, 24);
             this.button2.TabIndex = 3;
@@ -117,17 +118,17 @@ namespace ModBus
             // 
             // InstanceID_textBox
             // 
-            this.InstanceID_textBox.Location = new System.Drawing.Point(576, 49);
+            this.InstanceID_textBox.Location = new System.Drawing.Point(383, 45);
             this.InstanceID_textBox.Name = "InstanceID_textBox";
             this.InstanceID_textBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.InstanceID_textBox.Size = new System.Drawing.Size(32, 22);
+            this.InstanceID_textBox.Size = new System.Drawing.Size(108, 22);
             this.InstanceID_textBox.TabIndex = 7;
             this.InstanceID_textBox.Text = "0";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(396, 52);
+            this.label1.Location = new System.Drawing.Point(205, 48);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(152, 16);
             this.label1.TabIndex = 8;
@@ -136,17 +137,18 @@ namespace ModBus
             // 
             // InstanceID_to_textBox
             // 
-            this.InstanceID_to_textBox.Location = new System.Drawing.Point(631, 48);
+            this.InstanceID_to_textBox.Location = new System.Drawing.Point(561, 48);
             this.InstanceID_to_textBox.Name = "InstanceID_to_textBox";
             this.InstanceID_to_textBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.InstanceID_to_textBox.Size = new System.Drawing.Size(36, 22);
+            this.InstanceID_to_textBox.Size = new System.Drawing.Size(106, 22);
             this.InstanceID_to_textBox.TabIndex = 9;
             this.InstanceID_to_textBox.Text = "0";
+            this.InstanceID_to_textBox.TextChanged += new System.EventHandler(this.InstanceID_to_textBox_TextChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(614, 54);
+            this.label2.Location = new System.Drawing.Point(524, 48);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(11, 16);
             this.label2.TabIndex = 10;
@@ -154,6 +156,7 @@ namespace ModBus
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.button5);
             this.groupBox1.Controls.Add(this.comboBoxPorts);
             this.groupBox1.Controls.Add(this.button2);
             this.groupBox1.Controls.Add(this.button1);
@@ -180,6 +183,16 @@ namespace ModBus
             this.groupBox2.TabIndex = 12;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "BACNet/IP";
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(692, 23);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(79, 22);
+            this.button5.TabIndex = 4;
+            this.button5.Text = "Slave";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // Form1
             // 
@@ -215,6 +228,7 @@ namespace ModBus
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button button5;
     }
 }
 
